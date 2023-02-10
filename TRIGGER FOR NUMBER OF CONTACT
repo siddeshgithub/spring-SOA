@@ -1,0 +1,33 @@
+trigger relatedContactsCount on Contact (after insert,after delete) {
+    if(Trigger.isInsert && Trigger.isAfter){
+        Set<Id> conId=new Set<Id>();
+        for(Contact con:Trigger.new){
+            conId.add(con.AccountId);
+        }
+        List<Account> accList1=new List<Account>();
+        List<Account> acclist = [SELECT Id , Name,Number_of_Contacts__c, (SELECT Id , Name from Contacts ) FROM Account WHERE Id IN: conId ];
+        system.debug('acclist'+acclist);
+        for(Account a : acclist){
+            system.debug(a.contacts);
+            system.debug(a.contacts.size());
+            a.Number_of_Contacts__c = a.contacts.size();
+            acclist1.add(a);
+        }
+        update acclist1;
+    } 
+    else if(Trigger.isAfter && Trigger.isDelete){
+        Set<Id> coId=new Set<Id>();
+        for(Contact con:Trigger.old){
+            coId.add(con.AccountId);
+        }
+        List<Account> accList2=new List<Account>();
+        List<Account> aclist = [SELECT Id , Name,Number_of_Contacts__c, (SELECT Id , Name from Contacts ) FROM Account WHERE Id IN: coId ];
+        for(Account ac : aclist){
+            system.debug(ac.contacts);
+            system.debug(ac.contacts.size());
+            ac.Number_of_Contacts__c = ac.contacts.size();
+            acclist2.add(ac);
+        }
+        update acclist2;
+    }
+}
