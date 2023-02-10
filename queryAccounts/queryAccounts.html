@@ -1,0 +1,27 @@
+<template>
+    <lightning-card title="latest accounts using wire method">
+        <div class="slds-m-around_medium">
+            
+                <template for:each={wireAccounts} for:item="acc">
+                    <p key={acc.Id}>
+                        {acc.Name}</p>
+                </template>
+          
+        </div>
+    </lightning-card>
+
+
+    <lightning-card title="latest accounts using Imperative Method" >
+        <div class="slds-m-around_medium">
+            <p class="slds-m-bottom_small">
+                <lightning-button label="Latest Accounts" onclick={handleLoad}></lightning-button>
+            </p>
+           
+                <template for:each={imperativeAccounts} for:item="impAcc">
+                    <p key={impAcc.Id}>{impAcc.Name}</p>
+                </template>
+       
+          
+        </div>
+    </lightning-card>
+</template>
