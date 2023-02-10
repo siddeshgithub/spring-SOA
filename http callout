@@ -1,0 +1,12 @@
+public class httpCallout {
+    public void basicAuthCallout(){
+        Http http = new Http();
+        HttpRequest req = new HttpRequest();
+        req.setEndpoint('https://postman-echo.com/get?foo1=bar1&foo2=bar2');
+        req.setMethod('GET');
+        HTTPResponse res = http.send(req);
+        if(res.getStatusCode()==200){
+            System.debug(res.getBody());
+        }
+    }
+}
